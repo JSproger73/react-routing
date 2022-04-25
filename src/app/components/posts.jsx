@@ -1,10 +1,8 @@
 import React from 'react';
 import PostsList from './postsList';
 import Post from './post';
-import query from 'query-string';
-import _ from 'lodash';
 
-const Posts = ({ match, location }) => {
+const Posts = ({ match, history }) => {
   const posts = [
     { id: 1, label: 'Post 1' },
     { id: 2, label: 'Post 2' },
@@ -12,23 +10,14 @@ const Posts = ({ match, location }) => {
     { id: 4, label: 'Post 4' },
   ];
 
-  const search = query.parse(location.search);
   const postId = match.params.postId;
-
-  console.log(search);
-
-  const cropPosts = search
-    ? _(posts).slice(0).take(search.count).value()
-    : posts;
-
-  console.log(cropPosts);
 
   return (
     <>
       {postId ? (
-        <Post id={postId} posts={posts} />
+        <Post id={postId} posts={posts} history={history} />
       ) : (
-        <PostsList posts={cropPosts} />
+        <PostsList posts={posts} />
       )}
     </>
   );
